@@ -1,3 +1,14 @@
+네, 다크 모드 버튼이 스크롤을 따라다니도록 **우측 하단에 고정(Fixed)**하고, 눈에 잘 띄도록 배치해 드리겠습니다.
+
+버튼을 `header` 안에서 빼내어 **화면 전체를 기준으로 배치**되도록 수정했습니다. 이제 스크롤을 아무리 내려도 버튼이 항상 오른쪽 아래에 떠 있게 됩니다.
+
+아래 코드를 복사해서 `index.html`에 덮어씌워 주세요!
+
+### 🔧 최종 수정된 `index.html`
+
+(버튼 위치 이동 + 고정 기능 추가)
+
+```html
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -11,12 +22,12 @@
         @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
         
         :root {
-            /* 1. 브랜드 컬러 (배경/버튼용 - 진한 빨강 유지) */
+            /* 1. 브랜드 컬러 */
             --kw-red: #8a0025; 
             --kw-gradient: linear-gradient(135deg, #8a0025, #d90045);
 
-            /* 2. 텍스트 강조 컬러 (글자용 - 모드에 따라 변함!) */
-            --text-highlight: #8a0025; /* 라이트모드: 진한 빨강 */
+            /* 2. 텍스트 강조 컬러 */
+            --text-highlight: #8a0025;
             
             /* 라이트 모드 (기본) */
             --bg-color: #f8f9fa;
@@ -32,11 +43,12 @@
             --highlight-bg: rgba(255, 200, 200, 0.5);
             --tech-badge-bg: #eee;
             --tech-badge-text: #555;
+            --toggle-bg: rgba(255, 255, 255, 0.8);
+            --toggle-border: rgba(0, 0, 0, 0.1);
         }
 
         /* 🌙 다크 모드 설정 */
         [data-theme="dark"] {
-            /* ✨ 다크모드 핵심: 글자용 빨강을 '밝은 코랄색'으로 변경 ✨ */
             --text-highlight: #ff6b6b; 
 
             --bg-color: #121212;
@@ -52,6 +64,8 @@
             --highlight-bg: rgba(138, 0, 37, 0.8);
             --tech-badge-bg: #333;
             --tech-badge-text: #ccc;
+            --toggle-bg: rgba(50, 50, 50, 0.8);
+            --toggle-border: rgba(255, 255, 255, 0.2);
         }
         
         body { 
@@ -68,26 +82,27 @@
 
         .container { max-width: 900px; margin: 0 auto; padding: 20px; position: relative; }
         
-        /* 🌓 다크모드 토글 버튼 */
+        /* 🌓 다크모드 토글 버튼 (위치 수정됨: 우측 하단 고정) */
         .theme-toggle {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(255, 255, 255, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            position: fixed; /* 화면 기준 고정 */
+            bottom: 30px;    /* 바닥에서 30px */
+            right: 30px;     /* 오른쪽에서 30px */
+            background: var(--toggle-bg);
+            border: 1px solid var(--toggle-border);
             border-radius: 50%;
-            width: 45px;
-            height: 45px;
+            width: 55px;     /* 크기 약간 키움 */
+            height: 55px;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            z-index: 100;
+            z-index: 9999;   /* 항상 맨 위에 표시 */
             backdrop-filter: blur(5px);
-            transition: transform 0.3s;
-            font-size: 1.5rem;
+            transition: transform 0.3s, background 0.3s;
+            font-size: 1.8rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2); /* 그림자 추가 */
         }
-        .theme-toggle:hover { transform: rotate(15deg) scale(1.1); background: rgba(255, 255, 255, 0.3); }
+        .theme-toggle:hover { transform: rotate(15deg) scale(1.1); box-shadow: 0 8px 20px rgba(0,0,0,0.3); }
 
         /* 1. 헤더 */
         header { 
@@ -119,7 +134,7 @@
         section { padding: 80px 0; }
         section h2 { text-align: center; font-size: 2.2rem; margin-bottom: 50px; color: var(--text-main); font-weight: 800; }
         
-        /* ✨ 수정됨: 텍스트 강조색 변수 적용 */
+        /* 텍스트 강조 */
         .highlight { color: var(--text-highlight); position: relative; display: inline-block; }
         .highlight::after { content:''; position: absolute; bottom: 5px; left: 0; width: 100%; height: 8px; background: var(--highlight-bg); z-index: -1; }
 
@@ -191,7 +206,6 @@
 
         /* 하단 CTA */
         .bottom-cta-section { text-align: center; margin-bottom: 60px; }
-        /* ✨ 수정됨: 텍스트 강조색 적용 */
         .cta-text { margin-bottom: 15px; font-weight: bold; color: var(--text-highlight); font-size: 1.1rem; }
         
         .btn-sub { 
@@ -206,7 +220,6 @@
         .footer-links { margin-bottom: 40px; padding-bottom: 40px; border-bottom: 1px solid #444; }
         .footer-links h4 { color: white; margin-bottom: 20px; font-size: 1.1rem; }
         .footer-links a { color: #ccc; text-decoration: none; margin: 0 15px; font-weight: bold; transition: color 0.2s; display: inline-block; margin-bottom: 10px; }
-        /* ✨ 수정됨: 텍스트 강조색 적용 */
         .footer-links a:hover { color: var(--text-highlight); }
         .copyright { font-size: 0.8rem; opacity: 0.6; }
 
@@ -214,12 +227,12 @@
 </head>
 <body>
 
+    <div class="theme-toggle" onclick="toggleTheme()" title="다크 모드 전환">
+        <span id="theme-icon">🌙</span>
+    </div>
+
     <header>
         <div class="container">
-            <div class="theme-toggle" onclick="toggleTheme()" title="다크 모드 전환">
-                <span id="theme-icon">🌙</span>
-            </div>
-
             <p>👋 26학번 새내기 개발자</p>
             <h1>📢 광운대 알리미<br>드디어 등장이요!!</h1>
             <p>아직도 학교 홈페이지 매일 들어가니? 🤷‍♂️<br>이제 누워서 편하게 알림으로 받아보자고!! 😎</p>
@@ -367,3 +380,5 @@
 
 </body>
 </html>
+
+```
