@@ -7,158 +7,206 @@
     <link rel="icon" href="school.png" type="image/png">
     
     <style>
-        /* 🎨 디자인: 폰트 & 컬러 */
+        /* 🎨 폰트 & 컬러 시스템 */
         @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
         
         :root {
             --kw-red: #8a0025; 
-            --kw-gradient: linear-gradient(135deg, #8a0025, #c90035);
-            --bg-light: #f8f9fa;
+            --kw-gradient: linear-gradient(135deg, #8a0025, #d90045);
+            --bg-pattern: radial-gradient(#ddd 1px, transparent 1px);
             --text-dark: #333;
         }
         
-        body { margin: 0; font-family: 'Pretendard', sans-serif; line-height: 1.6; color: var(--text-dark); word-break: keep-all; }
+        body { 
+            margin: 0; 
+            font-family: 'Pretendard', sans-serif; 
+            line-height: 1.6; 
+            color: var(--text-dark); 
+            word-break: keep-all; 
+            /* 배경에 아주 연한 도트 패턴 추가 */
+            background-color: #f8f9fa;
+            background-image: var(--bg-pattern);
+            background-size: 20px 20px;
+        }
+
         .container { max-width: 900px; margin: 0 auto; padding: 20px; }
         
+        /* ✨ 애니메이션 클래스 (스크롤 할 때 나타남) */
+        .fade-wrap { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+        .fade-wrap.visible { opacity: 1; transform: translateY(0); }
+
         /* 1. 헤더 */
         header { 
             background: var(--kw-gradient); 
             color: white; 
-            padding: 80px 20px 120px 20px; /* 아래 여백 더 늘림 */
+            padding: 80px 20px 140px 20px; /* 아래 여백 넉넉하게 */
             text-align: center; 
-            border-bottom-left-radius: 40px;
-            border-bottom-right-radius: 40px;
-            box-shadow: 0 10px 30px rgba(138, 0, 37, 0.3);
+            border-bottom-left-radius: 50px;
+            border-bottom-right-radius: 50px;
+            box-shadow: 0 15px 40px rgba(138, 0, 37, 0.2);
+            position: relative;
+            z-index: 10;
         }
-        header h1 { margin: 0; font-size: 2.8rem; font-weight: 800; letter-spacing: -1px; margin-bottom: 10px; }
-        header p { font-size: 1.2rem; opacity: 0.95; font-weight: 500; }
+        header h1 { margin: 0; font-size: 3rem; font-weight: 800; letter-spacing: -1px; margin-bottom: 15px; }
+        header p { font-size: 1.3rem; opacity: 0.95; font-weight: 500; }
         
         /* 버튼 스타일 */
-        .btn-group { margin-top: 30px; display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
+        .btn-group { margin-top: 35px; display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
         .btn { 
-            display: inline-block; padding: 12px 28px; border-radius: 50px; 
-            text-decoration: none; font-weight: bold; transition: all 0.2s;
+            display: inline-flex; align-items: center; justify-content: center;
+            padding: 14px 30px; border-radius: 50px; font-size: 1.1rem;
+            text-decoration: none; font-weight: bold; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
         .btn-primary { background: white; color: var(--kw-red); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
-        .btn-dark { background: rgba(0,0,0,0.3); color: white; border: 1px solid rgba(255,255,255,0.3); }
-        .btn:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.3); }
+        .btn-dark { background: rgba(0,0,0,0.25); color: white; border: 1px solid rgba(255,255,255,0.4); backdrop-filter: blur(5px); }
+        .btn:hover { transform: translateY(-5px) scale(1.02); box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
 
         /* 2. 섹션 공통 */
-        section { padding: 60px 0; }
-        section h2 { text-align: center; font-size: 2rem; margin-bottom: 40px; color: var(--text-dark); }
+        section { padding: 80px 0; }
+        section h2 { text-align: center; font-size: 2.2rem; margin-bottom: 50px; color: var(--text-dark); font-weight: 800; }
+        .highlight { color: var(--kw-red); position: relative; display: inline-block; }
+        .highlight::after { content:''; position: absolute; bottom: 5px; left: 0; width: 100%; height: 8px; background: rgba(255, 200, 200, 0.5); z-index: -1; }
 
-        /* 📸 인증샷 컨테이너 (수정됨) */
+        /* 📸 인증샷 컨테이너 */
         .screenshot-container {
             display: flex;
             justify-content: center;
             gap: 30px;
-            margin-top: -80px;
+            margin-top: -100px; /* 헤더 위로 겹치게 */
             margin-bottom: 80px;
             flex-wrap: wrap;
+            position: relative;
+            z-index: 20;
         }
-        .screenshot-box {
-            text-align: center;
-        }
+        .screenshot-box { text-align: center; perspective: 1000px; }
         .screenshot-img {
             width: 280px;
-            border-radius: 20px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-            border: 6px solid white;
-            transition: transform 0.3s;
+            border-radius: 25px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+            border: 8px solid white;
+            transition: transform 0.4s;
+            background: #fff;
         }
-        .screenshot-img:hover { transform: scale(1.02); }
-        /* 두 사진에 각도 다르게 주기 */
+        .screenshot-img:hover { transform: scale(1.05) rotate(0deg) !important; z-index: 30; }
         .rotate-left { transform: rotate(-3deg); }
         .rotate-right { transform: rotate(3deg); }
+        .caption { font-size: 1rem; color: #666; margin-top: 15px; font-weight: bold; background: white; padding: 5px 15px; border-radius: 20px; display: inline-block; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+
+        /* 기능 카드 스타일 */
+        .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
+        .feature-item { 
+            background: white; padding: 40px 30px; border-radius: 25px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03); text-align: center; 
+            border: 1px solid rgba(0,0,0,0.03); transition: transform 0.3s;
+        }
+        .feature-item:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.08); }
+        .feature-emoji { font-size: 3.5rem; margin-bottom: 20px; display: block; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1)); }
+        .feature-item h3 { font-size: 1.4rem; margin-bottom: 15px; color: var(--text-dark); }
+        .feature-item p { color: #666; font-size: 1.05rem; }
 
         /* 로직 박스 */
         .flow-container { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 15px; }
         .flow-box { 
-            background: white; border-radius: 20px; padding: 25px; width: 220px; text-align: center;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.05); border: 1px solid #eee;
+            background: white; border-radius: 20px; padding: 25px; width: 200px; text-align: center;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05); border: 2px solid #eee; position: relative;
         }
         .flow-arrow { font-size: 1.5rem; color: #ccc; font-weight: bold; }
         .tech-badge { 
-            font-size: 0.8rem; background: #eee; padding: 3px 8px; border-radius: 5px; 
-            color: #666; display: inline-block; margin-bottom: 5px; font-weight: bold;
+            font-size: 0.75rem; background: #eee; padding: 4px 10px; border-radius: 20px; 
+            color: #555; display: inline-block; margin-bottom: 10px; font-weight: bold; text-transform: uppercase;
         }
 
-        /* 기능 그리드 */
-        .features { background-color: var(--bg-light); border-radius: 30px; margin: 40px 0; }
-        .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
-        .feature-item { background: white; padding: 35px; border-radius: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); text-align: center; }
-        .feature-emoji { font-size: 3.5rem; margin-bottom: 20px; display: block; }
-        .feature-item h3 { font-size: 1.4rem; margin-bottom: 15px; color: var(--kw-red); }
+        /* 💌 피드백 섹션 */
+        .feedback-section { 
+            text-align: center; margin: 60px 0; padding: 50px; 
+            background: white; border-radius: 30px; 
+            box-shadow: 0 15px 40px rgba(0,0,0,0.05);
+        }
+        .feedback-btn { 
+            background: #333; color: white; padding: 12px 30px; border-radius: 50px; 
+            text-decoration: none; display: inline-block; margin-top: 20px; transition: 0.2s; font-weight: bold;
+        }
+        .feedback-btn:hover { background: var(--kw-red); transform: scale(1.05); }
 
-        /* 3. 피드백 섹션 */
-        .feedback-section { text-align: center; margin: 60px 0; padding: 40px; background: #fff; border: 2px dashed #ddd; border-radius: 20px; }
-        .feedback-btn { background: #333; color: white; padding: 10px 25px; border-radius: 30px; text-decoration: none; display: inline-block; margin-top: 15px; transition: 0.2s;}
-        .feedback-btn:hover { background: var(--kw-red); }
+        /* 하단 CTA 버튼 */
+        .bottom-cta { margin-top: 30px; }
+        .btn-sub { 
+            background: var(--kw-red); color: white; padding: 12px 30px; border-radius: 50px;
+            text-decoration: none; font-weight: bold; box-shadow: 0 10px 20px rgba(138, 0, 37, 0.3);
+            transition: 0.3s; display: inline-block;
+        }
+        .btn-sub:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(138, 0, 37, 0.4); }
 
         /* 4. 푸터 */
-        footer { background: #222; color: #aaa; padding: 50px 20px; text-align: center; font-size: 0.9rem; }
-        .footer-links { margin-bottom: 30px; padding-bottom: 30px; border-bottom: 1px solid #444; }
-        .footer-links h4 { color: white; margin-bottom: 15px; font-size: 1rem; }
-        .footer-links a { color: #ccc; text-decoration: none; margin: 0 10px; font-weight: bold; transition: color 0.2s; }
+        footer { background: #222; color: #aaa; padding: 60px 20px; text-align: center; font-size: 0.9rem; margin-top: 50px; }
+        .footer-links { margin-bottom: 40px; padding-bottom: 40px; border-bottom: 1px solid #444; }
+        .footer-links h4 { color: white; margin-bottom: 20px; font-size: 1.1rem; }
+        .footer-links a { color: #ccc; text-decoration: none; margin: 0 12px; font-weight: bold; transition: color 0.2s; display: inline-block; margin-bottom: 10px; }
         .footer-links a:hover { color: var(--kw-red); }
         .copyright { font-size: 0.8rem; opacity: 0.6; }
+
     </style>
 </head>
 <body>
 
     <header>
-        <div class="container">
-            <p>👋 광운대생 필수템</p>
-            <h1>📢 광운대 알리미 등장이요!!</h1>
-            <p>아직도 홈페이지 들락날락하니? 🤷‍♂️<br>이제 누워서 편하게 알림으로 받아보자고!! 😎</p>
+        <div class="container fade-wrap">
+            <p>👋 26학번 새내기 개발자의 역작</p>
+            <h1>📢 광운대 알리미<br>드디어 등장이요!!</h1>
+            <p>아직도 학교 홈페이지 매일 들어가니? 🤷‍♂️<br>이제 누워서 편하게 알림으로 받아보자고!! 😎</p>
             
             <div class="btn-group">
                 <a href="https://t.me/kw_alert" target="_blank" class="btn btn-primary">🚀 1초 만에 알림 받기</a>
-                <a href="https://github.com/viban0/web-monitor" target="_blank" class="btn btn-dark">💻 깃허브 구경가기</a>
+                <a href="https://github.com/viban0/web-monitor" target="_blank" class="btn btn-dark">💻 GitHub 코드 구경</a>
             </div>
         </div>
     </header>
 
     <div class="container">
-        <div class="screenshot-container">
+        <div class="screenshot-container fade-wrap">
             <div class="screenshot-box">
                 <img src="screenshot.png" alt="실시간 공지 알림 화면" class="screenshot-img rotate-left">
-                <p style="font-size: 0.9rem; color: #666; margin-top: 15px;">✨ 실시간 공지 알림</p>
+                <div class="caption">✨ 실시간 공지 알림</div>
             </div>
             <div class="screenshot-box">
                 <img src="excal.png" alt="학사일정 브리핑 화면" class="screenshot-img rotate-right">
-                <p style="font-size: 0.9rem; color: #666; margin-top: 15px;">📅 아침 학사일정 브리핑</p>
+                <div class="caption">📅 아침 학사일정 브리핑</div>
             </div>
         </div>
 
-        <section class="features">
-            <div class="container" style="padding: 20px;">
-                <h2>💖 이래서 만들었습니다</h2>
-                <div class="feature-grid">
-                    <div class="feature-item">
-                        <span class="feature-emoji">👀</span>
-                        <h3>공지 놓치면 손해잖아요</h3>
-                        <p>장학금, 공모전, 꿀알바...<br>기간 지나고 후회한 적 있죠? 😭<br>이제 <b>제목만 쓱-</b> 훑어보세요.<br>제가 실시간으로 물어다 드릴게요!</p>
-                    </div>
-                    
-                    <div class="feature-item">
-                        <span class="feature-emoji">📅</span>
-                        <h3>아! 맞다 수강신청!</h3>
-                        <p>"헐 오늘이었어?" 이제 그만! 🙅‍♂️<br>매일 아침 <b>'오늘의 학사일정'</b>과<br>중요한 <b>'D-Day'</b>를 브리핑해 드려요.<br>학교생활 비서가 따로 없다니까요?</p>
-                    </div>
+        <section class="fade-wrap">
+            <h2>💖 <span class="highlight">이래서 만들었습니다</span></h2>
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <span class="feature-emoji">👀</span>
+                    <h3>공지 놓치면 손해잖아요</h3>
+                    <p>장학금, 공모전, 꿀알바...<br>기간 지나고 후회한 적 있죠? 😭<br>이제 <b>제목만 쓱-</b> 훑어보세요.<br>제가 실시간으로 물어다 드릴게요!</p>
+                </div>
+                
+                <div class="feature-item">
+                    <span class="feature-emoji">📅</span>
+                    <h3>아! 맞다 수강신청!</h3>
+                    <p>"헐 오늘이었어?" 이제 그만! 🙅‍♂️<br>매일 아침 <b>'오늘의 학사일정'</b>과<br>중요한 <b>'D-Day'</b>를 브리핑해 드려요.<br>학교생활 비서가 따로 없다니까요?</p>
                 </div>
             </div>
         </section>
 
-        <section>
-            <h2>✨ 기가 막힌 특징</h2>
+        <section class="fade-wrap">
+            <h2>✨ <span class="highlight">기가 막힌 특징</span></h2>
             <div class="feature-grid">
-                <div class="feature-item" style="border: 2px solid #eee;">
+                <div class="feature-item">
+                    <span class="feature-emoji">🔇</span>
+                    <h3>잡음 제거 (Noise Canceling)</h3>
+                    <p>'교수지원팀', '산학협력단' 공지...<br>학생인 우리랑은 상관없잖아요?<br><b>불필요한 공지는 알아서 거르고</b><br>진짜 필요한 정보만 딱! 보냅니다. 🛡️</p>
+                </div>
+
+                <div class="feature-item">
                     <span class="feature-emoji">🏷️</span>
                     <h3>알아서 딱딱 분류</h3>
                     <p>제목만 보고 이게 뭔지 어떻게 아냐구요?<br>파이썬 봇이 <b>스마트하게 분석</b>해서<br>💰 장학금 | 📅 학사일정<br>이모지를 딱! 붙여드립니다.</p>
                 </div>
-                <div class="feature-item" style="border: 2px solid #eee;">
+
+                <div class="feature-item">
                     <span class="feature-emoji">💸</span>
                     <h3>평생 무료 선언</h3>
                     <p>서버비? 그런 거 안 듭니다.<br><b>GitHub Actions</b>를 극한으로 활용해<br>돈 한 푼 안 들이고 돌립니다!<br>졸업할 때까지 쭈~욱 무료! 😎</p>
@@ -166,8 +214,8 @@
             </div>
         </section>
 
-        <section>
-            <h2>🛠️ 작동 원리</h2>
+        <section class="fade-wrap">
+            <h2>🛠️ <span class="highlight">작동 원리 (Architecture)</span></h2>
             <p style="text-align: center; margin-bottom: 30px; color: #555;">
                 별도의 상시 서버 없이 <b>Serverless 환경</b>에서 효율적으로 동작합니다.
             </p>
@@ -193,15 +241,20 @@
             </div>
         </section>
 
-        <div class="feedback-section">
-            <h3 style="margin:0;">💌 개발자에게 한마디!</h3>
-            <p>써보니까 어때요? 칭찬해주시면 개발자가 춤을 춥니다 💃🕺</p>
+        <div class="feedback-section fade-wrap">
+            <h3 style="margin:0; font-size: 1.5rem;">💌 개발자에게 한마디!</h3>
+            <p style="margin-top:10px;">써보니까 어때요? 칭찬해주시면 개발자가 춤을 춥니다 💃🕺</p>
             
-            <a href="https://t.me/+p-QVo1Z6e5AxNTdl" target="_blank" style="text-decoration: none;">
-        <button style="background-color: #0088cc; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">
-            👥 광운대 알리미 피드백에 참여하기
-        </button>
-    </a>
+            <div style="margin-top: 30px;">
+                <a href="https://t.me/+p-QVo1Z6e5AxNTdl" target="_blank" class="feedback-btn" style="background: #0088cc;">
+                    👥 피드백 방 참여하기
+                </a>
+                <br>
+                <div class="bottom-cta">
+                    <p style="margin-bottom: 10px; font-weight: bold; color: var(--kw-red);">👇 아직 시작 안 하셨나요?</p>
+                    <a href="https://t.me/kw_alert" target="_blank" class="btn-sub">🚀 알림 봇 시작하기</a>
+                </div>
+            </div>
         </div>
 
     </div>
@@ -221,6 +274,28 @@
             <p>Powered by Python & GitHub Actions</p>
         </div>
     </footer>
+
+    <script>
+        // 요소가 화면에 보이면 'visible' 클래스를 추가해주는 코드
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target); // 한 번 보이면 감시 중단
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-wrap').forEach((el) => {
+            observer.observe(el);
+        });
+    </script>
 
 </body>
 </html>
