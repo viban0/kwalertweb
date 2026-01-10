@@ -11,8 +11,9 @@
     <meta property="og:image" content="thum.png">
     
     <title>광운대 알리미</title>
-    <link rel="icon" href="school.png" type="image/png">
+    <link rel="icon" href="alert.jpeg" type="image/png">
     
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -20,7 +21,7 @@
     <header>
         <div class="container">
             <p>👋 26학번 새내기 개발자의</p>
-            <h1>📢 광운대 알리미<br>드디어 등장이요!!</h1>
+            <h1>광운대 알리미<br>등장이요!!</h1>
             <p>아직도 학교 홈페이지 매일 들어가니? 🤷‍♂️<br>이제 누워서 편하게 알림으로 받아보자고!! 😎</p>
             <div class="btn-group">
                 <a href="https://t.me/kw_alert" target="_blank" class="btn btn-primary">🚀 1초 만에 알림 받기</a>
@@ -30,45 +31,66 @@
     </header>
 
     <div class="container">
-        <div class="screenshot-container">
-            <div class="screenshot-box">
-                <img src="screenshot.png" alt="실시간 공지 알림 화면" class="screenshot-img rotate-left">
-                <div class="caption">✨ 실시간 공지 알림</div>
-            </div>
-            <div class="screenshot-box">
-                <img src="excal.png" alt="학사일정 브리핑 화면" class="screenshot-img rotate-right">
-                <div class="caption">📅 아침 학사일정 브리핑</div>
-            </div>
-            <div class="screenshot-box">
-                <img src="diet.png" alt="학식 메뉴 알림 화면" class="screenshot-img rotate-left">
-                <div class="caption">🥄 오늘의 학식 메뉴</div>
-            </div>
-        </div>
-
         <section>
             <h2>💖 <span class="highlight">이래서 만들었습니다</span></h2>
-            <div class="feature-grid">
-                <div class="feature-item">
-                    <span class="feature-emoji">👀</span>
-                    <h3>공지 놓치면 손해잖아요</h3>
-                    <p>장학금, 공모전, 꿀알바...<br>기간 지나고 후회한 적 있죠? 😭<br>이제 <b>제목만 쓱-</b> 훑어보세요.<br>제가 실시간으로 물어다 드릴게요!</p>
+            <p style="text-align: center; margin-bottom: 30px; color: var(--text-sub);">옆으로 넘겨서 확인해보세요! 👉</p>
+            
+            <div class="swiper mySwiper">
+                <div class="swiper-wrapper">
+                    
+                    <div class="swiper-slide" onclick="openChat('notice')">
+                        <div class="reason-card">
+                            <div class="card-img-top">
+                                <img src="screenshot.png" alt="실시간 공지 알림">
+                                <div class="click-hint">👆 터치해서 미리보기</div>
+                                <div class="card-img-caption">✨ 실시간 공지 알림</div>
+                            </div>
+                            <div class="card-body">
+                                <span class="feature-emoji">👀</span>
+                                <h3>공지 놓치면 손해잖아요</h3>
+                                <p>장학금, 공모전, 꿀알바...<br>기간 지나고 후회한 적 있죠? 😭<br>이제 <b>제목만 쓱-</b> 훑어보세요.<br>제가 실시간으로 물어다 드릴게요!</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="swiper-slide" onclick="openChat('calendar')">
+                        <div class="reason-card">
+                            <div class="card-img-top">
+                                <img src="excal.png" alt="학사일정 브리핑">
+                                <div class="click-hint">👆 터치해서 미리보기</div>
+                                <div class="card-img-caption">📅 아침 학사일정 브리핑</div>
+                            </div>
+                            <div class="card-body">
+                                <span class="feature-emoji">📅</span>
+                                <h3>아! 맞다 수강신청!</h3>
+                                <p>"헐 오늘이었어?" 이제 그만! 🙅‍♂️<br>매일 아침 <b>'오늘의 학사일정'</b>과<br>중요한 <b>'D-Day'</b>를 브리핑해 드려요.<br>학교생활 비서가 따로 없다니까요?</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="swiper-slide" onclick="openChat('food')">
+                        <div class="reason-card">
+                            <div class="card-img-top">
+                                <img src="diet.png" alt="학식 메뉴 알림">
+                                <div class="click-hint">👆 터치해서 미리보기</div>
+                                <div class="card-img-caption">🥄 오늘의 학식 메뉴</div>
+                            </div>
+                            <div class="card-body">
+                                <span class="feature-emoji">🍱</span>
+                                <h3>오늘 학식 뭐 나오지?</h3>
+                                <p>"함지마루 갈까 말까?" 🤔<br>고민할 시간에 메뉴부터 확인하세요!<br>매일 아침 <b>오늘의 학식 메뉴</b>를<br>깔끔하게 정리해서 보내드립니다.</p>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
-                <div class="feature-item">
-                    <span class="feature-emoji">📅</span>
-                    <h3>아! 맞다 수강신청!</h3>
-                    <p>"헐 오늘이었어?" 이제 그만! 🙅‍♂️<br>매일 아침 <b>'오늘의 학사일정'</b>과<br>중요한 <b>'D-Day'</b>를 브리핑해 드려요.<br>학교생활 비서가 따로 없다니까요?</p>
-                </div>
-                <div class="feature-item">
-                    <span class="feature-emoji">🍱</span>
-                    <h3>오늘 학식 뭐 나오지?</h3>
-                    <p>"함지마루 갈까 말까?" 🤔<br>고민할 시간에 메뉴부터 확인하세요!<br>매일 아침 <b>오늘의 학식 메뉴</b>를<br>깔끔하게 정리해서 보내드립니다.</p>
-                </div>
+                <div class="swiper-pagination"></div>
             </div>
         </section>
 
         <section>
             <h2>✨ <span class="highlight">기가 막힌 특징</span></h2>
-            <div class="feature-grid">
+            <div class="scroll-container">
                 <div class="feature-item">
                     <span class="feature-emoji">🔇</span>
                     <h3>잡음 제거</h3>
@@ -79,6 +101,13 @@
                     <h3>알아서 딱딱 분류</h3>
                     <p>제목만 보고 이게 뭔지 어떻게 아냐구요?<br>파이썬 봇이 <b>스마트하게 분석</b>해서<br>💰 장학금 | 📅 학사일정<br>이모지를 딱! 붙여드립니다.</p>
                 </div>
+                
+                <div class="feature-item">
+                    <span class="feature-emoji">🤩</span>
+                    <h3>재밌는 상호작용</h3>
+                    <p>중요한 공지엔 🔥, 맛있는 학식엔 🤤<br>친구들과 <b>이모지로 반응</b>해보세요!<br>딱딱한 공지방은 이제 그만~<br>모두 함께 즐겁게 소통해요! 🎉</p>
+                </div>
+
                 <div class="feature-item">
                     <span class="feature-emoji">🛠️</span>
                     <h3>지속적인 업데이트</h3>
@@ -92,7 +121,7 @@
             <p style="text-align: center; margin-bottom: 30px; color: var(--text-sub);">
                 별도의 상시 서버 없이 <b>Serverless 환경</b>에서 효율적으로 동작합니다.
             </p>
-            <div class="flow-container">
+            <div class="scroll-container">
                 <div class="flow-box">
                     <span class="tech-badge">Scheduling</span>
                     <h3>Cron Job</h3>
@@ -146,7 +175,74 @@
         <span id="theme-icon">🌙</span>
     </div>
 
+    <div id="telegramModal" class="chat-modal">
+        <div class="chat-header">
+            <div class="back-btn-container" onclick="closeChat()">
+                <div class="back-btn-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                </div>
+                <span class="back-btn-text">돌아가기</span>
+            </div>
+            
+            <div class="header-profile">
+                <div class="bot-avatar-header">
+                    <img src="alert.jpeg" alt="Bot Profile">
+                </div>
+                <div class="profile-info">
+                    <span class="profile-name">광운대 알리미</span>
+                    <span class="profile-status">8 subscribers</span>
+                </div>
+            </div>
+            <div class="header-right">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            </div>
+        </div>
+
+        <div class="chat-body" id="chatBody">
+            </div>
+
+        <div class="chat-footer">
+            <span class="attach-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path></svg>
+            </span>
+            <div class="fake-input-box">Broadcast a message...</div>
+            <span class="mic-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
+            </span>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
     <script>
+        // Swiper 설정
+        var swiper = new Swiper(".mySwiper", {
+            effect: "cards",
+            grabCursor: true,
+            centeredSlides: true,
+            slidesPerView: "auto",
+            
+            cardsEffect: {
+                perSlideOffset: 8, 
+                perSlideRotate: 2,
+                slideShadows: false,
+            },
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+            },
+            breakpoints: {
+                768: {
+                    cardsEffect: {
+                        perSlideOffset: 20, 
+                        perSlideRotate: 5,
+                        slideShadows: false,
+                    }
+                }
+            }
+        });
+
+        // 다크모드
         function toggleTheme() {
             const body = document.body;
             const icon = document.getElementById('theme-icon');
@@ -164,6 +260,90 @@
         if (savedTheme === 'dark') {
             document.body.setAttribute('data-theme', 'dark');
             document.getElementById('theme-icon').textContent = '☀️';
+        }
+
+        // 채팅 시나리오 데이터
+        const chatScenarios = {
+            'notice': [
+                { text: "📢 <b>[일반] 2026학년도 1학기 행복기숙사 입사자 모집</b>", views: 3130, delay: 500 },
+                { text: "| 작성일 2026-01-09 생활관<br><a href='#'>👉 공지 바로가기</a>", views: 3130, delay: 1200 },
+                { text: "💰 <b>(장학) 인산장학회 장학생 선발 안내(2차)</b>", views: 2300, delay: 2000 },
+                { text: "| 작성일 2025-12-26 학생복지팀<br><a href='#'>👉 공지 바로가기</a>", views: 2300, delay: 2800 }
+            ],
+            'calendar': [
+                { text: "📅 <b>오늘의 학사일정 (2026-01-09)</b><br><br>• 오늘 예정된 학사일정이 없습니다.", views: 2151, delay: 500 },
+                { text: "🔜 <b>다가오는 일정</b><br><br>02.02(월) ~ 02.27(금) (D-24)<br>👉 2026학년도 1학기 복학신청<br><br>02.04(수) ~ 02.06(금) (D-26)<br>👉 2026학년도 1학기 다전공 신청<br><br><a href='#'>🔗 전체 일정 보기</a>", views: 2151, delay: 1500 }
+            ],
+            'food': [
+                { text: "🥄 <b>오늘의 학식 (함지마루)</b>", views: 2426, delay: 500 },
+                { text: "🍱 <b>점심 (11:30 ~ 14:00)</b><br>- 잡곡밥<br>- 순살돈까스&브라운S<br>- 로제파스타<br>- 그린샐러드<br><br><a href='#'>👉 전체 식단 보기</a>", views: 2426, delay: 1300 }
+            ]
+        };
+
+        const modal = document.getElementById('telegramModal');
+        const chatBody = document.getElementById('chatBody');
+        let chatTimeouts = [];
+        let savedScrollPosition = 0; // [NEW] 스크롤 위치 저장 변수
+
+        // 채팅 열기
+        function openChat(type) {
+            // 1. 현재 스크롤 위치 저장
+            savedScrollPosition = window.scrollY;
+
+            modal.classList.add('active');
+            document.body.classList.add('no-scroll');
+            
+            chatBody.innerHTML = '<div class="date-divider">Today</div>';
+            
+            const messages = chatScenarios[type];
+            if (!messages) return;
+
+            messages.forEach((msg) => {
+                const timer = setTimeout(() => {
+                    addMessage(msg.text, msg.views);
+                }, msg.delay);
+                chatTimeouts.push(timer);
+            });
+        }
+
+        function addMessage(htmlContent, views) {
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
+            const viewsStr = views > 1000 ? (views / 1000).toFixed(1) + 'K' : views;
+
+            const row = document.createElement('div');
+            row.className = 'message-row';
+            row.innerHTML = `
+                <div class="bubble">
+                    ${htmlContent}
+                    <div class="bubble-meta">
+                        <span class="views-icon">👁️</span>
+                        <span>${viewsStr}</span>
+                        <span>${timeStr}</span>
+                    </div>
+                </div>
+            `;
+            chatBody.appendChild(row);
+            setTimeout(() => row.classList.add('show'), 10);
+            chatBody.scrollTop = chatBody.scrollHeight;
+        }
+
+        // 채팅 닫기
+        function closeChat() {
+            modal.classList.remove('active');
+            document.body.classList.remove('no-scroll');
+            
+            // [NEW] 저장해둔 스크롤 위치로 즉시 복구
+            window.scrollTo(0, savedScrollPosition);
+            
+            chatTimeouts.forEach(clearTimeout);
+            chatTimeouts = [];
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                closeChat();
+            }
         }
     </script>
 
