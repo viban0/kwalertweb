@@ -3,47 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>광운대 알리미 - KW Notification</title>
+    <title>광운대 알리미</title>
     <link rel="icon" href="school.png" type="image/png">
     
     <style>
-        /* 🎨 폰트 & 컬러 시스템 */
+        /* 🎨 폰트 & 컬러 시스템 (다크모드 지원) */
         @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
         
         :root {
+            /* 공통 컬러 */
             --kw-red: #8a0025; 
             --kw-gradient: linear-gradient(135deg, #8a0025, #d90045);
-            --bg-pattern: radial-gradient(#ddd 1px, transparent 1px);
-            --text-dark: #333;
+            
+            /* 라이트 모드 (기본) */
+            --bg-color: #f8f9fa;
+            --bg-pattern-color: #ddd;
+            --text-main: #333;
+            --text-sub: #666;
+            --card-bg: #ffffff;
+            --card-border: rgba(0,0,0,0.05);
+            --shadow-color: rgba(0,0,0,0.05);
+            --header-shadow: rgba(138, 0, 37, 0.2);
+            --footer-bg: #222;
+            --footer-text: #aaa;
+            --highlight-bg: rgba(255, 200, 200, 0.5);
+            --tech-badge-bg: #eee;
+            --tech-badge-text: #555;
+        }
+
+        /* 🌙 다크 모드 설정 */
+        [data-theme="dark"] {
+            --bg-color: #121212;
+            --bg-pattern-color: #333;
+            --text-main: #e1e1e1;
+            --text-sub: #aaa;
+            --card-bg: #1e1e1e;
+            --card-border: #333;
+            --shadow-color: rgba(0,0,0,0.5);
+            --header-shadow: rgba(0, 0, 0, 0.5);
+            --footer-bg: #0a0a0a;
+            --footer-text: #888;
+            --highlight-bg: rgba(138, 0, 37, 0.8); /* 다크모드에선 좀 더 진하게 */
+            --tech-badge-bg: #333;
+            --tech-badge-text: #ccc;
         }
         
         body { 
             margin: 0; 
             font-family: 'Pretendard', sans-serif; 
             line-height: 1.6; 
-            color: var(--text-dark); 
+            color: var(--text-main); 
             word-break: keep-all; 
-            /* 배경에 아주 연한 도트 패턴 추가 */
-            background-color: #f8f9fa;
-            background-image: var(--bg-pattern);
+            background-color: var(--bg-color);
+            background-image: radial-gradient(var(--bg-pattern-color) 1px, transparent 1px);
             background-size: 20px 20px;
+            transition: background 0.3s, color 0.3s; /* 부드러운 전환 */
         }
 
-        .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; padding: 20px; position: relative; }
         
-        /* ✨ 애니메이션 클래스 (스크롤 할 때 나타남) */
+        /* 애니메이션 */
         .fade-wrap { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
         .fade-wrap.visible { opacity: 1; transform: translateY(0); }
+
+        /* 🌓 다크모드 토글 버튼 */
+        .theme-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 100;
+            backdrop-filter: blur(5px);
+            transition: transform 0.3s;
+            font-size: 1.5rem;
+        }
+        .theme-toggle:hover { transform: rotate(15deg) scale(1.1); background: rgba(255, 255, 255, 0.3); }
 
         /* 1. 헤더 */
         header { 
             background: var(--kw-gradient); 
             color: white; 
-            padding: 80px 20px 140px 20px; /* 아래 여백 넉넉하게 */
+            padding: 80px 20px 140px 20px;
             text-align: center; 
             border-bottom-left-radius: 50px;
             border-bottom-right-radius: 50px;
-            box-shadow: 0 15px 40px rgba(138, 0, 37, 0.2);
+            box-shadow: 0 15px 40px var(--header-shadow);
             position: relative;
             z-index: 10;
         }
@@ -63,16 +115,16 @@
 
         /* 2. 섹션 공통 */
         section { padding: 80px 0; }
-        section h2 { text-align: center; font-size: 2.2rem; margin-bottom: 50px; color: var(--text-dark); font-weight: 800; }
+        section h2 { text-align: center; font-size: 2.2rem; margin-bottom: 50px; color: var(--text-main); font-weight: 800; }
         .highlight { color: var(--kw-red); position: relative; display: inline-block; }
-        .highlight::after { content:''; position: absolute; bottom: 5px; left: 0; width: 100%; height: 8px; background: rgba(255, 200, 200, 0.5); z-index: -1; }
+        .highlight::after { content:''; position: absolute; bottom: 5px; left: 0; width: 100%; height: 8px; background: var(--highlight-bg); z-index: -1; }
 
         /* 📸 인증샷 컨테이너 */
         .screenshot-container {
             display: flex;
             justify-content: center;
             gap: 30px;
-            margin-top: -100px; /* 헤더 위로 겹치게 */
+            margin-top: -100px;
             margin-bottom: 80px;
             flex-wrap: wrap;
             position: relative;
@@ -83,44 +135,50 @@
             width: 280px;
             border-radius: 25px;
             box-shadow: 0 25px 50px rgba(0,0,0,0.25);
-            border: 8px solid white;
+            border: 8px solid white; /* 다크모드에서도 사진 테두리는 흰색 유지하여 폴라로이드 느낌 */
             transition: transform 0.4s;
             background: #fff;
         }
         .screenshot-img:hover { transform: scale(1.05) rotate(0deg) !important; z-index: 30; }
         .rotate-left { transform: rotate(-3deg); }
         .rotate-right { transform: rotate(3deg); }
-        .caption { font-size: 1rem; color: #666; margin-top: 15px; font-weight: bold; background: white; padding: 5px 15px; border-radius: 20px; display: inline-block; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .caption { 
+            font-size: 1rem; color: var(--text-sub); margin-top: 15px; font-weight: bold; 
+            background: var(--card-bg); padding: 5px 15px; border-radius: 20px; 
+            display: inline-block; box-shadow: 0 2px 5px var(--shadow-color); border: 1px solid var(--card-border);
+        }
 
-        /* 기능 카드 스타일 */
+        /* 기능 카드 */
         .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
         .feature-item { 
-            background: white; padding: 40px 30px; border-radius: 25px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.03); text-align: center; 
-            border: 1px solid rgba(0,0,0,0.03); transition: transform 0.3s;
+            background: var(--card-bg); padding: 40px 30px; border-radius: 25px; 
+            box-shadow: 0 10px 30px var(--shadow-color); text-align: center; 
+            border: 1px solid var(--card-border); transition: transform 0.3s, background 0.3s;
         }
-        .feature-item:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.08); }
+        .feature-item:hover { transform: translateY(-10px); box-shadow: 0 20px 40px var(--shadow-color); }
         .feature-emoji { font-size: 3.5rem; margin-bottom: 20px; display: block; filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1)); }
-        .feature-item h3 { font-size: 1.4rem; margin-bottom: 15px; color: var(--text-dark); }
-        .feature-item p { color: #666; font-size: 1.05rem; }
+        .feature-item h3 { font-size: 1.4rem; margin-bottom: 15px; color: var(--text-main); }
+        .feature-item p { color: var(--text-sub); font-size: 1.05rem; }
 
         /* 로직 박스 */
         .flow-container { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 15px; }
         .flow-box { 
-            background: white; border-radius: 20px; padding: 25px; width: 200px; text-align: center;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.05); border: 2px solid #eee; position: relative;
+            background: var(--card-bg); border-radius: 20px; padding: 25px; width: 200px; text-align: center;
+            box-shadow: 0 10px 20px var(--shadow-color); border: 2px solid var(--card-border); position: relative;
         }
         .flow-arrow { font-size: 1.5rem; color: #ccc; font-weight: bold; }
+        .flow-box h3 { color: var(--text-main); }
+        .flow-box p { color: var(--text-sub); }
         .tech-badge { 
-            font-size: 0.75rem; background: #eee; padding: 4px 10px; border-radius: 20px; 
-            color: #555; display: inline-block; margin-bottom: 10px; font-weight: bold; text-transform: uppercase;
+            font-size: 0.75rem; background: var(--tech-badge-bg); padding: 4px 10px; border-radius: 20px; 
+            color: var(--tech-badge-text); display: inline-block; margin-bottom: 10px; font-weight: bold; text-transform: uppercase;
         }
 
         /* 💌 피드백 섹션 */
         .feedback-section { 
-            text-align: center; margin: 60px 0; padding: 50px; 
-            background: white; border-radius: 30px; 
-            box-shadow: 0 15px 40px rgba(0,0,0,0.05);
+            text-align: center; margin: 60px 0 40px 0; padding: 50px; 
+            background: var(--card-bg); border-radius: 30px; 
+            box-shadow: 0 15px 40px var(--shadow-color); border: 1px solid var(--card-border);
         }
         .feedback-btn { 
             background: #333; color: white; padding: 12px 30px; border-radius: 50px; 
@@ -128,20 +186,20 @@
         }
         .feedback-btn:hover { background: var(--kw-red); transform: scale(1.05); }
 
-        /* 하단 CTA 버튼 */
-        .bottom-cta { margin-top: 30px; }
+        /* 하단 CTA */
+        .bottom-cta-section { text-align: center; margin-bottom: 60px; }
         .btn-sub { 
-            background: var(--kw-red); color: white; padding: 12px 30px; border-radius: 50px;
+            background: var(--kw-red); color: white; padding: 15px 40px; border-radius: 50px;
             text-decoration: none; font-weight: bold; box-shadow: 0 10px 20px rgba(138, 0, 37, 0.3);
-            transition: 0.3s; display: inline-block;
+            transition: 0.3s; display: inline-block; font-size: 1.2rem;
         }
         .btn-sub:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(138, 0, 37, 0.4); }
 
         /* 4. 푸터 */
-        footer { background: #222; color: #aaa; padding: 60px 20px; text-align: center; font-size: 0.9rem; margin-top: 50px; }
+        footer { background: var(--footer-bg); color: var(--footer-text); padding: 60px 20px; text-align: center; font-size: 0.9rem; margin-top: 50px; transition: background 0.3s; }
         .footer-links { margin-bottom: 40px; padding-bottom: 40px; border-bottom: 1px solid #444; }
-        .footer-links h4 { color: white; margin-bottom: 20px; font-size: 1.1rem; }
-        .footer-links a { color: #ccc; text-decoration: none; margin: 0 12px; font-weight: bold; transition: color 0.2s; display: inline-block; margin-bottom: 10px; }
+        .footer-links h4 { color: var(--text-main); color: white; margin-bottom: 20px; font-size: 1.1rem; }
+        .footer-links a { color: #ccc; text-decoration: none; margin: 0 15px; font-weight: bold; transition: color 0.2s; display: inline-block; margin-bottom: 10px; }
         .footer-links a:hover { color: var(--kw-red); }
         .copyright { font-size: 0.8rem; opacity: 0.6; }
 
@@ -151,7 +209,11 @@
 
     <header>
         <div class="container fade-wrap">
-            <p>👋 26학번 새내기 개발자의 역작</p>
+            <div class="theme-toggle" onclick="toggleTheme()" title="다크 모드 전환">
+                <span id="theme-icon">🌙</span>
+            </div>
+
+            <p>👋 26학번 새내기 개발자</p>
             <h1>📢 광운대 알리미<br>드디어 등장이요!!</h1>
             <p>아직도 학교 홈페이지 매일 들어가니? 🤷‍♂️<br>이제 누워서 편하게 알림으로 받아보자고!! 😎</p>
             
@@ -196,7 +258,7 @@
             <div class="feature-grid">
                 <div class="feature-item">
                     <span class="feature-emoji">🔇</span>
-                    <h3>잡음 제거 (Noise Canceling)</h3>
+                    <h3>잡음 제거</h3>
                     <p>'교수지원팀', '산학협력단' 공지...<br>학생인 우리랑은 상관없잖아요?<br><b>불필요한 공지는 알아서 거르고</b><br>진짜 필요한 정보만 딱! 보냅니다. 🛡️</p>
                 </div>
 
@@ -207,16 +269,16 @@
                 </div>
 
                 <div class="feature-item">
-                    <span class="feature-emoji">💸</span>
-                    <h3>평생 무료 선언</h3>
-                    <p>서버비? 그런 거 안 듭니다.<br><b>GitHub Actions</b>를 극한으로 활용해<br>돈 한 푼 안 들이고 돌립니다!<br>졸업할 때까지 쭈~욱 무료! 😎</p>
+                    <span class="feature-emoji">🛠️</span>
+                    <h3>지속적인 업데이트</h3>
+                    <p>졸업할 때까지 <b>평생 무료</b>는 기본!<br>여러분의 피드백을 빠르게 반영해서<br>매일매일 더 똑똑해질 거예요.<br>믿고 쓰셔도 됩니다! 🫡</p>
                 </div>
             </div>
         </section>
 
         <section class="fade-wrap">
-            <h2>🛠️ <span class="highlight">작동 원리 (Architecture)</span></h2>
-            <p style="text-align: center; margin-bottom: 30px; color: #555;">
+            <h2>🛠️ <span class="highlight">작동 원리</span></h2>
+            <p style="text-align: center; margin-bottom: 30px; color: var(--text-sub);">
                 별도의 상시 서버 없이 <b>Serverless 환경</b>에서 효율적으로 동작합니다.
             </p>
             
@@ -243,18 +305,16 @@
 
         <div class="feedback-section fade-wrap">
             <h3 style="margin:0; font-size: 1.5rem;">💌 개발자에게 한마디!</h3>
-            <p style="margin-top:10px;">써보니까 어때요? 칭찬해주시면 개발자가 춤을 춥니다 💃🕺</p>
+            <p style="margin-top:10px; color: var(--text-sub);">써보니까 어때요? 칭찬해주시면 개발자가 춤을 춥니다 💃🕺</p>
             
-            <div style="margin-top: 30px;">
-                <a href="https://t.me/+p-QVo1Z6e5AxNTdl" target="_blank" class="feedback-btn" style="background: #0088cc;">
-                    👥 피드백 방 참여하기
-                </a>
-                <br>
-                <div class="bottom-cta">
-                    <p style="margin-bottom: 10px; font-weight: bold; color: var(--kw-red);">👇 아직 시작 안 하셨나요?</p>
-                    <a href="https://t.me/kw_alert" target="_blank" class="btn-sub">🚀 알림 봇 시작하기</a>
-                </div>
-            </div>
+            <a href="https://t.me/+p-QVo1Z6e5AxNTdl" target="_blank" class="feedback-btn" style="background: #0088cc;">
+                👥 피드백 방 참여하기
+            </a>
+        </div>
+
+        <div class="bottom-cta-section fade-wrap">
+            <p style="margin-bottom: 15px; font-weight: bold; color: var(--kw-red); font-size: 1.1rem;">👇 아직 시작 안 하셨나요?</p>
+            <a href="https://t.me/kw_alert" target="_blank" class="btn-sub">🚀 지금 바로 알림 받기</a>
         </div>
 
     </div>
@@ -263,10 +323,10 @@
         <div class="footer-links">
             <h4>🔗 광운대생 필수 링크</h4>
             <br>
-            <a href="https://www.kw.ac.kr" target="_blank">🏫 학교 홈페이지</a>
-            <a href="https://www.kw.ac.kr/ko/life/notice.jsp" target="_blank">📌 공지사항</a>
-            <a href="https://everytime.kr" target="_blank">🔥 에브리타임</a>
-            <a href="https://www.instagram.com/kwangwoon_univ_official" target="_blank">📸 공식 인스타그램</a>
+            <a href="https://www.kw.ac.kr" target="_blank">학교 홈페이지</a>
+            <a href="https://www.kw.ac.kr/ko/life/notice.jsp" target="_blank">공지사항</a>
+            <a href="https://everytime.kr" target="_blank">에브리타임</a>
+            <a href="https://www.instagram.com/kwangwoon_univ_official" target="_blank">공식 인스타그램</a>
         </div>
 
         <div class="copyright">
@@ -276,25 +336,40 @@
     </footer>
 
     <script>
-        // 요소가 화면에 보이면 'visible' 클래스를 추가해주는 코드
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.1
-        };
+        // 1. 다크 모드 로직
+        function toggleTheme() {
+            const body = document.body;
+            const icon = document.getElementById('theme-icon');
+            
+            // 다크 모드 속성 토글
+            if (body.getAttribute('data-theme') === 'dark') {
+                body.removeAttribute('data-theme');
+                icon.textContent = '🌙';
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                icon.textContent = '☀️';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
 
-        const observer = new IntersectionObserver((entries, observer) => {
+        // 2. 방문 시 기존 설정 불러오기
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            document.body.setAttribute('data-theme', 'dark');
+            document.getElementById('theme-icon').textContent = '☀️';
+        }
+
+        // 3. 스크롤 애니메이션
+        const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
-                    observer.unobserve(entry.target); // 한 번 보이면 감시 중단
                 }
             });
-        }, observerOptions);
+        }, { threshold: 0.1 });
 
-        document.querySelectorAll('.fade-wrap').forEach((el) => {
-            observer.observe(el);
-        });
+        document.querySelectorAll('.fade-wrap').forEach((el) => observer.observe(el));
     </script>
 
 </body>
