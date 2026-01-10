@@ -71,26 +71,34 @@
 
         .container { max-width: 900px; margin: 0 auto; padding: 20px; position: relative; }
         
-        /* 🌓 다크모드 토글 버튼 */
+        /* 🌓 다크모드 토글 버튼 (수정됨: 우측 하단 고정) */
         .theme-toggle {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(255, 255, 255, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            width: 45px;
-            height: 45px;
+            position: fixed;          /* 스크롤 해도 화면에 고정 */
+            bottom: 30px;             /* 바닥에서 30px 위 */
+            right: 30px;              /* 오른쪽에서 30px 안쪽 */
+            
+            width: 55px;              /* 크기 살짝 키움 */
+            height: 55px;
+            border-radius: 50%;       /* 동그라미 */
+            
+            background: var(--card-bg); /* 배경색 (다크모드 대응) */
+            color: var(--text-main);    /* 아이콘 색 (다크모드 대응) */
+            border: 2px solid var(--card-border);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2); /* 그림자 추가 */
+            
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            z-index: 100;
-            backdrop-filter: blur(5px);
-            transition: transform 0.3s;
-            font-size: 1.5rem;
+            z-index: 9999;            /* 제일 위에 뜨도록 */
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            font-size: 1.8rem;
         }
-        .theme-toggle:hover { transform: rotate(15deg) scale(1.1); background: rgba(255, 255, 255, 0.3); }
+        
+        .theme-toggle:hover { 
+            transform: translateY(-5px) rotate(15deg); /* 마우스 올리면 살짝 뜸 */
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
 
         /* 헤더 */
         header { 
@@ -203,10 +211,8 @@
 
     <header>
         <div class="container">
-            <div class="theme-toggle" onclick="toggleTheme()" title="다크 모드 전환">
-                <span id="theme-icon">🌙</span>
-            </div>
-            <p>👋 26학번 새내기 개발자</p>
+            
+            <p>👋 26학번 새내기 개발자의</p>
             <h1>📢 광운대 알리미<br>드디어 등장이요!!</h1>
             <p>아직도 학교 홈페이지 매일 들어가니? 🤷‍♂️<br>이제 누워서 편하게 알림으로 받아보자고!! 😎</p>
             <div class="btn-group">
@@ -319,7 +325,9 @@
             <p>Powered by Python & GitHub Actions</p>
         </div>
     </footer>
-
+    <div class="theme-toggle" onclick="toggleTheme()" title="다크 모드 전환">
+                <span id="theme-icon">🌙</span>
+            </div>
     <script>
         function toggleTheme() {
             const body = document.body;
@@ -340,5 +348,6 @@
             document.getElementById('theme-icon').textContent = '☀️';
         }
     </script>
+
 </body>
 </html>
