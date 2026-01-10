@@ -11,9 +11,12 @@
         @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
         
         :root {
-            /* 공통 컬러 */
+            /* 1. 브랜드 컬러 (배경/버튼용 - 진한 빨강 유지) */
             --kw-red: #8a0025; 
             --kw-gradient: linear-gradient(135deg, #8a0025, #d90045);
+
+            /* 2. 텍스트 강조 컬러 (글자용 - 모드에 따라 변함!) */
+            --text-highlight: #8a0025; /* 라이트모드: 진한 빨강 */
             
             /* 라이트 모드 (기본) */
             --bg-color: #f8f9fa;
@@ -33,6 +36,9 @@
 
         /* 🌙 다크 모드 설정 */
         [data-theme="dark"] {
+            /* ✨ 다크모드 핵심: 글자용 빨강을 '밝은 코랄색'으로 변경 ✨ */
+            --text-highlight: #ff6b6b; 
+
             --bg-color: #121212;
             --bg-pattern-color: #333;
             --text-main: #e1e1e1;
@@ -112,7 +118,9 @@
         /* 2. 섹션 공통 */
         section { padding: 80px 0; }
         section h2 { text-align: center; font-size: 2.2rem; margin-bottom: 50px; color: var(--text-main); font-weight: 800; }
-        .highlight { color: var(--kw-red); position: relative; display: inline-block; }
+        
+        /* ✨ 수정됨: 텍스트 강조색 변수 적용 */
+        .highlight { color: var(--text-highlight); position: relative; display: inline-block; }
         .highlight::after { content:''; position: absolute; bottom: 5px; left: 0; width: 100%; height: 8px; background: var(--highlight-bg); z-index: -1; }
 
         /* 📸 인증샷 컨테이너 */
@@ -183,6 +191,9 @@
 
         /* 하단 CTA */
         .bottom-cta-section { text-align: center; margin-bottom: 60px; }
+        /* ✨ 수정됨: 텍스트 강조색 적용 */
+        .cta-text { margin-bottom: 15px; font-weight: bold; color: var(--text-highlight); font-size: 1.1rem; }
+        
         .btn-sub { 
             background: var(--kw-red); color: white; padding: 15px 40px; border-radius: 50px;
             text-decoration: none; font-weight: bold; box-shadow: 0 10px 20px rgba(138, 0, 37, 0.3);
@@ -193,9 +204,10 @@
         /* 4. 푸터 */
         footer { background: var(--footer-bg); color: var(--footer-text); padding: 60px 20px; text-align: center; font-size: 0.9rem; margin-top: 50px; transition: background 0.3s; }
         .footer-links { margin-bottom: 40px; padding-bottom: 40px; border-bottom: 1px solid #444; }
-        .footer-links h4 { color: var(--text-main); color: white; margin-bottom: 20px; font-size: 1.1rem; }
+        .footer-links h4 { color: white; margin-bottom: 20px; font-size: 1.1rem; }
         .footer-links a { color: #ccc; text-decoration: none; margin: 0 15px; font-weight: bold; transition: color 0.2s; display: inline-block; margin-bottom: 10px; }
-        .footer-links a:hover { color: var(--kw-red); }
+        /* ✨ 수정됨: 텍스트 강조색 적용 */
+        .footer-links a:hover { color: var(--text-highlight); }
         .copyright { font-size: 0.8rem; opacity: 0.6; }
 
     </style>
@@ -308,7 +320,7 @@
         </div>
 
         <div class="bottom-cta-section">
-            <p style="margin-bottom: 15px; font-weight: bold; color: var(--kw-red); font-size: 1.1rem;">👇 아직 시작 안 하셨나요?</p>
+            <p class="cta-text">👇 아직 시작 안 하셨나요?</p>
             <a href="https://t.me/kw_alert" target="_blank" class="btn-sub">🚀 지금 바로 알림 받기</a>
         </div>
 
@@ -331,12 +343,10 @@
     </footer>
 
     <script>
-        // 1. 다크 모드 로직
         function toggleTheme() {
             const body = document.body;
             const icon = document.getElementById('theme-icon');
             
-            // 다크 모드 속성 토글
             if (body.getAttribute('data-theme') === 'dark') {
                 body.removeAttribute('data-theme');
                 icon.textContent = '🌙';
@@ -348,7 +358,11 @@
             }
         }
 
-        
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            document.body.setAttribute('data-theme', 'dark');
+            document.getElementById('theme-icon').textContent = '☀️';
+        }
     </script>
 
 </body>
