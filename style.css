@@ -356,3 +356,44 @@ footer { background: var(--footer-bg); color: var(--footer-text); padding: 60px 
         justify-content: center;
     }
 }
+/* ... 기존 코드 아래에 추가 ... */
+
+/* VS 섹션 스타일 */
+.vs-container {
+    display: flex; gap: 20px; justify-content: center; margin-top: 30px;
+    flex-wrap: wrap;
+}
+.vs-card {
+    flex: 1; min-width: 300px;
+    background: var(--card-bg); border: 1px solid var(--card-border);
+    border-radius: 20px; padding: 30px; text-align: center;
+    box-shadow: 0 10px 20px var(--shadow-color);
+    transition: transform 0.3s;
+}
+.vs-card:hover { transform: translateY(-5px); }
+.vs-card.senior { border-top: 5px solid #2c3e50; } /* 선배님: 중후한 네이비 */
+.vs-card.junior { border-top: 5px solid var(--kw-red); } /* 나: 열정의 레드 */
+
+.vs-icon { font-size: 3rem; margin-bottom: 15px; display: block; }
+.vs-title { font-size: 1.5rem; font-weight: bold; margin-bottom: 10px; color: var(--text-main); }
+.vs-badge { 
+    display: inline-block; padding: 5px 12px; border-radius: 15px; 
+    font-size: 0.8rem; font-weight: bold; margin-bottom: 20px;
+}
+.senior .vs-badge { background: #eee; color: #555; }
+.junior .vs-badge { background: #fff0f0; color: var(--kw-red); }
+
+.vs-list { list-style: none; padding: 0; text-align: left; }
+.vs-list li { 
+    padding: 10px 0; border-bottom: 1px solid var(--card-border); 
+    color: var(--text-sub); font-size: 0.95rem;
+}
+.vs-list li:last-child { border-bottom: none; }
+.vs-list b { color: var(--text-main); margin-right: 5px; }
+
+/* ⚠️ 경고 문구 (재미용) */
+.disclaimer {
+    text-align: center; margin-top: 40px; padding: 15px;
+    background: rgba(0,0,0,0.03); border-radius: 10px;
+    font-size: 0.85rem; color: var(--text-sub);
+}
